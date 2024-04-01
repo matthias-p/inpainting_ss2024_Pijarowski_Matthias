@@ -19,11 +19,12 @@ Complete the code in the file natural\_neighbor\_interpolation.py.
 
 \item[a)] Complete the unit tests (test\_read\_pixel\_cloud\_from\_csv).
 
-\item[b)] Describe your test strategy: which cases do you test and why? What could happen when reading a file, which cases are worth testing?
+\item[b)] Describe your test strategy: which cases do you test and why? What could happen when reading a file, which cases are worth testing?\\
+Test if rows in csv add up with value in row 0. Test if every row has 5 values. Test if expected types match.
 
 \end{enumerate}
 
-I needed the following time to complete the task:
+I needed the following time to complete the task: 5min
 
 \subsection{Create Neighborhood Relation (10 points)}
 
@@ -72,11 +73,11 @@ Note: the derivation can easily be found on the Internet. Nevertheless, solve it
 
 \item[d)] Add the test cases according to your argumentation from c). 
 
-\item[d)] Complete the source code in the function compute\_barycentric\_coordinates. 
+\item[e)] Complete the source code in the function compute\_barycentric\_coordinates. 
 
 \end{enumerate}
 
-I needed the following time to complete the task:
+I needed the following time to complete the task: 1h
 
 \subsection{Interpolation of the pixel values (5 points)}
 
@@ -90,7 +91,7 @@ Now implement an interpolation method for pixel values: use the barycentric coor
 
 \end{enumerate}
 
-I needed the following time to complete the task:
+I needed the following time to complete the task: 20min
 
 \subsection{rasterization of triangles (20 points)}
 
@@ -105,7 +106,7 @@ Based on the function for interpolating pixel values, implement the complete nat
 \item[c)] Not all pixels within the box are also within the triangle. This must be dealt with. A simple test of whether a point is inside a triangle uses barycentric coordinates: if one of the coordinates is negative, the point is outside. Build in an appropriate test. For example, the interpolation function could return None if the point is outside. You could also write a separate function (pixel\_inside\_trangle) and not even calculate the interpolated color values if the pixel is outside.
 
 \begin{center}
-% \includegraphics[width=0.25\textwidth]{source_code/example.png}
+\includegraphics[width=0.25\textwidth]{source_code/interpolated.png}
 \end{center}
 
 \item[d)] You have been asked for help because a colleague's implementation has pixel errors. Maybe your implementation has the same problem? Speculate what could be causing the error and suggest a solution.
@@ -116,6 +117,6 @@ Based on the function for interpolating pixel values, implement the complete nat
 
 \end{enumerate}
 
-I needed the following time to complete the task:
+I needed the following time to complete the task: 1h
 
 \end{document}
