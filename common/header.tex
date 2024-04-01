@@ -1,0 +1,25 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage[ngerman]{babel} % automatische Silbentrennung
+\usepackage[table]{xcolor}
+\usepackage{tabularx,array,booktabs,makecell}
+\usepackage{titlesec}
+\usepackage{amsmath}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy} 
+\fancyhead[L]{Inpainting SS 2024}  
+
+\fancypagestyle{page1}{
+	\fancyhead[L]{\firstname \: \lastname}
+	\fancyhead[C]{Inpainting SS 2024\\Aufgabenblatt \aufgabenblatt}
+	\fancyhead[R]{ \\\includegraphics[width=0.25\textwidth]{../common/hs_aalen_de.png}}
+
+}
+\setlength{\parindent}{0mm}
+\setlength{\parskip}{2.5mm}
+
+\titlespacing*{\section}{0mm}{4pt}{0pt}
+\setlength{\headsep}{14mm}
