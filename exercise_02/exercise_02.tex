@@ -70,6 +70,10 @@ Note: the derivation can easily be found on the Internet. Nevertheless, solve it
 \end{align}
 
 \item[c)] The function test\_compute\_barycentric\_coordinates already contains some test cases. Argue: are these test cases sufficient, or which test cases should be added? 
+\\
+Adding a test for Px, Py = x1 or x2 or x3 can be good. \\
+Also maybe test for coordinates outside of the triangle. \\
+Also add a test to check if $1 = W_1 + W_2 + W_3$
 
 \item[d)] Add the test cases according to your argumentation from c). 
 
@@ -100,6 +104,9 @@ Based on the function for interpolating pixel values, implement the complete nat
 \begin{enumerate}
 
 \item[a)] You rasterize a triangle by first determining the axis aligned bounding box, i.e. the smallest and largest coordinate in the x and y directions. The triangle always lies within this box. As always: first add test cases or argue why this is not necessary.
+\\
+Test can help since when handling coordiantes you can quickly confuse them.
+
 
 \item[b)] Now iterate all pixels within the box. Use two nested loops. Calculate the interpolated color value for each pixel and save it in the array. If necessary, first add test cases. Then implement the function.
 
@@ -110,6 +117,8 @@ Based on the function for interpolating pixel values, implement the complete nat
 \end{center}
 
 \item[d)] You have been asked for help because a colleague's implementation has pixel errors. Maybe your implementation has the same problem? Speculate what could be causing the error and suggest a solution.
+\\
+floating point errorsg
 
 \begin{center}
 \includegraphics[width=0.25\textwidth]{source_code/example_pixel_error.png}
