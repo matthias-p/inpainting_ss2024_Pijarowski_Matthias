@@ -36,7 +36,6 @@ def select_target_coords(confidences: np.ndarray, fillfront: list) -> tuple[int,
 
 
 def calculate_cost(source: np.ndarray, target: np.ndarray, target_mask: np.ndarray) -> float:
-    # np.nditer könnte effizient sein, maske muss sein - woher sonst wissen ob pixel nicht vielleicht wirklich 255,255,255
     source_copy = source.copy()
     target_copy = target.copy()
 
@@ -45,33 +44,31 @@ def calculate_cost(source: np.ndarray, target: np.ndarray, target_mask: np.ndarr
 
     return np.sqrt(np.sum(np.power(source_copy - target_copy, 2)))
 
-    # height, width = source.shape[0], source.shape[1]
-    # sum_ = 0
-    # for y in range(height):
-    #     for x in range(width):
-    #         if (target_mask[y, x] == 255):
-    #             continue
-    #         sum_ += np.sum(np.power(source[y, x] - target[y, x], 2))
-    # return np.sqrt(sum_)
+
+# SOURCE_REGION_COORDINATES = []
 
 
-SOURCE_REGION_COORDINATES = []
+def cache(func):
+    def wrapper(*args, **kwargs):
+        if wrapper.func_result is None:
+            wrapper.func_result = func(*args, **kwargs)
+        return wrapper.func_result
+    wrapper.func_result = None
+    return wrapper
+        
 
-
+@cache
 def extract_source_region(mask: np.ndarray) -> list:
-    global SOURCE_REGION_COORDINATES
-
-    if not SOURCE_REGION_COORDINATES:
-        height, width = mask.shape
-        for y in range(HALF_PATCH_SIZE, height - HALF_PATCH_SIZE):
-            for x in range(HALF_PATCH_SIZE, width - HALF_PATCH_SIZE):
-                if (mask[y - HALF_PATCH_SIZE: y + HALF_PATCH_SIZE + 1, x - HALF_PATCH_SIZE: x + HALF_PATCH_SIZE + 1] == 0).all():
-                    SOURCE_REGION_COORDINATES.append((y, x))
-    return SOURCE_REGION_COORDINATES
+    source_region_coordinates = []
+    height, width = mask.shape
+    for y in range(HALF_PATCH_SIZE, height - HALF_PATCH_SIZE):
+        for x in range(HALF_PATCH_SIZE, width - HALF_PATCH_SIZE):
+            if (mask[y - HALF_PATCH_SIZE: y + HALF_PATCH_SIZE + 1, x - HALF_PATCH_SIZE: x + HALF_PATCH_SIZE + 1] == 0).all():
+                source_region_coordinates.append((y, x))
+    return source_region_coordinates
 
 
 def find_best_patch(image: np.ndarray, mask: np.ndarray, target_coordinates: tuple[int, int]) -> tuple[int, int]:
-    height, width = mask.shape
     source_region_coordinates = extract_source_region(mask)
 
     y_target, x_target = target_coordinates
@@ -116,7 +113,6 @@ def inpaint_image(image: np.ndarray, mask: np.ndarray, confidences: np.ndarray):
 
         cv2.imwrite(f"./inpainted/{i}.png", image)
         i += 1
-        # break
 
 
 def main():
