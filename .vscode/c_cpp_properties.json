@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${default}",
+                "/usr/include/python3.12",
+                "${workspaceFolder}/venv/lib/python3.12/site-packages/pybind11/include"
+            ],
+            "defines": [],
+            "cStandard": "c17",
+            "cppStandard": "gnu++20",
+            "intelliSenseMode": "linux-gcc-x64",
+            "compilerPath": "/usr/bin/g++",
+            "compilerArgs": [
+                "/home/matthias/Documents/inpainting_ss2024_Pijarowski_Matthias/venv/lib/python3.12/site-packages/pybind11/include",
+                "/usr/include/python3.12"
+            ]
+        }
+    ],
+    "version": 4
+}
