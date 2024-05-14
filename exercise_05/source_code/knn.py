@@ -70,6 +70,25 @@ class TestKNN(unittest.TestCase):
 
         self.assertCountEqual(neighbors, gt)
 
+    def test_quadatic(self):
+        im = np.array([[255, 255, 255, 255, 0, 255, 255, 255, 255],
+               [255, 0, 255, 255, 255, 255, 255, 0, 255], 
+               [255, 255, 255, 255, 255, 255, 255, 255, 255], 
+               [255, 255, 255, 255, 255, 255, 255, 255, 0], 
+               [0, 255, 255, 255, 255, 255, 255, 255, 255], 
+               [255, 255, 255, 255, 255, 255, 255, 255, 255], 
+               [255, 255, 255, 255, 255, 255, 255, 255, 255], 
+               [255, 0, 255, 255, 255, 255, 255, 0, 255], 
+               [255, 255, 255, 255, 0, 255, 255, 255, 255], 
+               ])
+        gt = sorted([(3, 8), (4, 0), (8, 4), (0, 4)])
+
+        neighbors = example.nn_quadratic(im, (4, 4), 4)
+        neighbors_ = sorted([(y, x) for y, x, _ in neighbors])
+        print(neighbors_)
+
+        self.assertCountEqual(neighbors_, gt)
+
 unittest.main(argv=[""], verbosity=2)
 
 
