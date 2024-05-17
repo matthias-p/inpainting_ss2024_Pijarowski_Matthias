@@ -1,0 +1,84 @@
+\def\firstname{Tim}
+\def\lastname{Dahmen}
+\def\aufgabenblatt{6}
+
+\include{../common/header.tex}
+
+\begin{document}
+\thispagestyle{page1} 
+
+\section{Pixelbasiertes Inpainting}
+
+In dieser Aufgabe implementieren Sie das pixelbasierte Inpainting-Verfahren.
+
+\subsection{Pattern bestimmen}
+
+Bestimmen Sie zunächst die sparse Maske für einen Pixel. Implementieren Sie hierzu die Funktion \texttt{create\_pattern( origin, mask, k )}. Die Funktion akzeptiert ein tupel \texttt{origin (x,y)}, eine maske sowie eine Konstante $k$, z.B. 5. Sie bestimmt dann die $k$ nächsten Nachbarn von \texttt{origin}, also die Koordinaten der definierten Pixel in der Umgebung von \texttt{origin}. Die Koordinaten werden dann relativ zu \texttt{origin} zurückgegeben.
+
+Ist beispielsweise der Pixel 2 links von \texttt{origin} definiert, so enthält das Ergebnis die Koordinate $(-2,0)$. Verwenden Sie zur Implementierung Ihre Lösung des letzten Aufgabenblattes.
+
+\begin{enumerate}
+
+\item[a)] Implementieren Sie Unittests sowie eine Visualisierung, was vor sich geht. 
+
+\item[b)] Implementieren Sie die Funktion.
+
+\end{enumerate}
+
+Für die Bearbeitung der Aufgabe habe ich folgende Zeit benötigt:
+
+\subsection{Bestimmung von Kandidaten}
+
+Als nächstes wird eine Liste von Kandidaten erstellt. Implementieren Sie hierzu die Funktion \texttt{suggest\_candidates( mask, pattern, n )}. Die Funktion akzeptiert eine Maske, ein Pattern (s.o.) sowie die Anzahl der zu bestimmenden Kandidaten $n$. Gültige Kandidaten haben folgende Eigenschaften: a) der Pixel ist definiert. b) Wird die Maske auf den Pixel gelegt, so sind alle Pixel innerhalb der Maske ebenfalls definiert. Beispiel: die Maske ist \texttt{[(-2,0)(0,1)]}. Damit \texttt{(100/100)} ein gültiger Kandidate ist, müssen die folgenden Pixel definiert sein: \texttt{(100/100),(98,100),(100,101)}.
+
+\begin{enumerate}
+
+\item[a)] Implementieren Sie Unittests . 
+
+\item[b)] Implementieren Sie die Funktion.
+
+\end{enumerate}
+
+\subsection{Kandidaten Auswahl}
+
+Nun werden die Kandidaten bewerted. Die Distanz eines Pixels ist die sparse $L_2$-Norm der Farbwerte zwischen dem Zielpixel und dem Kandidaten, ausgewerted jeweils an den Positionen der sparsen Maske. Verwenden Sie den Kandidaten mit der geringsten Distanz.
+
+\begin{enumerate}
+
+\item[c)] Implementieren Sie Unittests. 
+
+\item[d)] Implementieren Sie die Funktion.
+
+\end{enumerate}
+
+Für die Bearbeitung der Aufgabe habe ich folgende Zeit benötigt:
+
+\subsection{Inpainting-Schleife}
+
+Nun implementieren Sie die Inpainting-Schleife. Diese besteht aus folgenden Schritten:
+
+\begin{enumerate}
+
+\item Wähle zufällig einen nicht definierter Pixel aus. Dieser heisst nun \texttt{origin}.
+\item Erstelle eine Liste mit $n$ gültigen Kandidaten. $n$ ist ein wichtiger Qualitäts vs. Performanz Parameter. Typische Werte sind 25 (sehr grob), 100 (grob), 1000 (gut) oder 10000 (sehr gut). 
+\item Wählen den besten Kandidaten aus.
+\item Kopieren  den Farbwert des besten Kandidaten nach \texttt{origin}. Nun ist \texttt{origin} definiert.
+\item Iteriere, bis keine Pixel mehr undefiniert sind. 
+
+\end{enumerate}
+
+Für die Bearbeitung der Aufgabe habe ich folgende Zeit benötigt:
+
+\subsection{Performance Optimierung}
+
+\begin{enumerate}
+
+\item[a)] Profilen Sie Ihre Anwendung. Welche Funktionen lohnt es sich zu optimieren? 
+
+\item[b)] Optimieren Sie Ihre Anwendung. 
+
+\end{enumerate}
+
+Für die Bearbeitung der Aufgabe habe ich folgende Zeit benötigt:
+
+\end{document}
