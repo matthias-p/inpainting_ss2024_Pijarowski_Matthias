@@ -49,7 +49,7 @@ std::set<std::pair<int, int>> nn_circular(const py::array_t<int64_t> &mask, cons
 }
 
 
-std::set<std::pair<int, int>> nn_circular_native(const py::array_t<int64_t> &mask, const std::pair<int32_t, int32_t> origin, u_int8_t k) {
+std::set<std::pair<int, int>> nn_circular_native(const py::array_t<int64_t> &mask, const std::pair<int32_t, int32_t> origin, u_int32_t k) {
     const int height = mask.shape(0), width = mask.shape(1);
     const auto [origin_y, origin_x] = origin;
     int64_t* mask_ptr = static_cast<int64_t*>(mask.request().ptr);
@@ -78,6 +78,37 @@ std::set<std::pair<int, int>> nn_circular_native(const py::array_t<int64_t> &mas
     return neighbors;
 }
 
+std::set<std::pair<int, int>> nn_circular_native_2(const py::array_t<uint8_t> &mask, const std::pair<int32_t, int32_t> &origin, u_int32_t k) {
+    const int height = mask.shape(0), width = mask.shape(1);
+    const auto [origin_y, origin_x] = origin;
+    uint8_t* mask_ptr = static_cast<uint8_t*>(mask.request().ptr);
+    std::set<std::pair<int, int>> neighbors;
+
+    const int max_distance = std::max({euclidean_distance(origin, {0, 0}), euclidean_distance(origin, {0, width}), euclidean_distance(origin, {height, 0}), euclidean_distance(origin, {height, width})});
+
+    for (int distance = 1; distance < max_distance; distance++) {
+        int discretization_values = 4 * std::numbers::pi * distance + 1;
+        float discretization_angle = 2.0 / discretization_values;
+        for (int i = 0; i < discretization_values; i++) {
+            float theta = i * discretization_angle * std::numbers::pi;
+            int y = distance * std::cos(theta) + origin_y;
+            if (y < 0 || y >= height) {
+                continue;
+            }
+            int x = distance * std::sin(theta) + origin_x;
+            if (x < 0 || x >= width) {
+                continue;
+            }
+            if (mask_ptr[y * width + x] == DEFINED) {
+                neighbors.insert({y, x});
+                if (neighbors.size() == k)
+                    return neighbors;
+            }
+        }
+    }
+    return neighbors;
+}
+
 
 PYBIND11_MODULE(knn, m) {
     m.doc() = "example plugin";
@@ -85,4 +116,5 @@ PYBIND11_MODULE(knn, m) {
     m.def("euclidean_distance", &euclidean_distance, "Compute euclidean distance");
     m.def("nn_circular", &nn_circular);
     m.def("nn_circular_native", &nn_circular_native);
+    m.def("nn_circular_native_2", &nn_circular_native_2);
 }
