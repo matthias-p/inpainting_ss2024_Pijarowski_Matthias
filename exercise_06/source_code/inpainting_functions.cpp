@@ -40,13 +40,14 @@ std::vector<std::pair<int, int>> generate_candidates(const py::array_t<uint8_t, 
 }
 
 
-float sparse_l2(const py::array_t<uint8_t, py::array::c_style> &image, const std::pair<int, int> origin, const std::pair<int, int> candidate, const std::vector<std::pair<int, int>> neighbors) {
-    uint8_t* image_ptr = static_cast<uint8_t*>(image.request().ptr);
+float sparse_l2(const py::array_t<uint8_t, py::array::c_style> &image, const std::pair<int, int> &origin, const std::pair<int, int> &candidate, const std::vector<std::pair<int, int>> &neighbors) {
+    const uint8_t* image_ptr = static_cast<uint8_t*>(image.request().ptr);
+    const int width = image.shape(1);
 
     float sum = 0;
     for (const auto& neighbor: neighbors) {
-        int origin_index = (origin.first + neighbor.first) * image.shape(1) * 3 + (origin.second + neighbor.second) * 3;
-        int candiate_index = (candidate.first + neighbor.first) * image.shape(1) * 3 + (candidate.second + neighbor.second) * 3;
+        int origin_index = (origin.first + neighbor.first) * width * 3 + (origin.second + neighbor.second) * 3;
+        int candiate_index = (candidate.first + neighbor.first) * width * 3 + (candidate.second + neighbor.second) * 3;
         for (int i = 0; i < 3; i++) {
             sum += std::pow(image_ptr[origin_index + i] - image_ptr[candiate_index + i], 2);
         }
